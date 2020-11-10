@@ -1,0 +1,38 @@
+# Set up back end modules
+import cv2 as cv
+import numpy
+import sys
+# Set up GUI and file dialog
+import tkinter as tk
+from tkinter.filedialog import askopenfilename
+
+#Set up tkinter to open system file dialog
+root = tk.Tk()
+#Remove tkinter root window
+root.withdraw()
+#Call file dialog (options are formatted: defaultextension,filetypes,initialdir,initialfile,parent,title)
+filename = askopenfilename(multiple=True)
+print(filename)
+if len(filename) < 2:
+    img = cv.imread(cv.samples.findFile(filename[0])) #Changing askopenfilename for multiple changed return type to 'str', this caused issues with printing the file when the tuple index was not correctly identified
+    if img is None:
+        sys.exit(0) #This method of exiting the program is depreciated, however the '0' indicates to the system that no error occured upon exit
+    cv.imshow("Display window", img)
+    k = cv.waitKey(0) # This waits 0 ms for a keypress
+    if k == ord("s"): # I think that this is extraneous, but will advise
+        cv.imwrite("UserImage", img)
+else:
+    for f in filename:
+        img = cv.imread(cv.samples.findFile(f))
+        if img is None:
+            sys.exit(0)
+        cv.imshow("Display window", img)
+        k = cv.waitKey(0) # This waits 0 ms for a keypress
+        if k == ord("s"): # I think that this is extraneous, but will advise
+            cv.imwrite("UserImage", img)
+            continue
+sys.exit(0)
+
+
+
+
